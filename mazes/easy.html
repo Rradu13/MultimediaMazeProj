@@ -6,6 +6,39 @@
   <title>Maze - Level Easy</title>
   <link rel="stylesheet" href="../style.css">
 </head>
+<body>
+
+<div id="game-container">
+
+  <header>
+    <h1>Find the cheese!</h1>
+  </header>
+
+  <div id="stats-panel">
+    <div><p>Level</p><p id="level-display">Easy</p></div>
+    <div><p>Time Left</p><p id="timer">00:00</p></div>
+    <div><p>Score</p><p id="score-display">0</p></div>
+  </div>
+
+  <main id="game-area">
+
+    <div class="maze">
+
+    </div>
+
+  </main>
+
+  <footer id="controls">
+    <div>
+      <p>Keyboard: W A S D or Arrow Keys</p>
+    </div>
+  </footer>
+
+  <div id="back-to-menu">
+    <a href="../index.html" class="back-btn">⬅ Back to Level Selection</a>
+  </div>
+
+</div>
 <script>
 const AudioEngine = (() => {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -91,41 +124,7 @@ window.addEventListener("load", () => {
   AudioEngine.startMusic();
 });
 </script>
-
-<body>
-
-<div id="game-container">
-
-  <header>
-    <h1>Find the cheese!</h1>
-  </header>
-
-  <div id="stats-panel">
-    <div><p>Level</p><p id="level-display">Easy</p></div>
-    <div><p>Time Left</p><p id="timer">00:00</p></div>
-    <div><p>Score</p><p id="score-display">0</p></div>
-  </div>
-
-  <main id="game-area">
-
-    <div class="maze">
-
-    </div>
-
-  </main>
-
-  <footer id="controls">
-    <div>
-      <p>Keyboard: W A S D or Arrow Keys</p>
-    </div>
-  </footer>
-
-  <div id="back-to-menu">
-    <a href="../index.html" class="back-btn">⬅ Back to Level Selection</a>
-  </div>
-
-</div>
-
 </body>
 </html>
+
 
