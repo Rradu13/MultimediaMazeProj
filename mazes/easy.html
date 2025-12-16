@@ -6,6 +6,92 @@
   <title>Maze - Level Easy</title>
   <link rel="stylesheet" href="../style.css">
 </head>
+<script>
+const AudioEngine = (() => {
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const ctx = new AudioContext();
+
+  const masterGain = ctx.createGain();
+  masterGain.gain.value = 0.3;
+  masterGain.connect(ctx.destination);
+
+  function playTone(freq, duration = 0.1, type = "sine") {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = type;
+    osc.frequency.value = freq;
+
+    osc.connect(gain);
+    gain.connect(masterGain);
+
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(1, ctx.currentTime + 0.01);
+    gain.gain.exponentialRampToValueAtTime(
+      0.0001,
+      ctx.currentTime + duration
+    );
+
+    osc.start();
+    osc.stop(ctx.currentTime + duration);
+  }
+
+  return {
+    move() {
+      playTone(500, 0.05, "square");
+    },
+    wall() {
+      playTone(120, 0.12, "sawtooth");
+    },
+    win() {
+      playTone(800, 0.15);
+      setTimeout(() => playTone(1000, 0.2), 150);
+      setTimeout(() => playTone(1200, 0.25), 350);
+    },
+    startMusic() {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = "triangle";
+      osc.frequency.value = 220;
+
+      gain.gain.value = 0.05;
+
+      osc.connect(gain);
+      gain.connect(masterGain);
+
+      osc.start();
+      this._bg = osc;
+    },
+    stopMusic() {
+      if (this._bg) {
+        this._bg.stop();
+        this._bg = null;
+      }
+    },
+    resume() {
+      if (ctx.state === "suspended") ctx.resume();
+    }
+  };
+})();
+
+
+document.addEventListener("keydown", (e) => {
+  AudioEngine.resume();
+
+  if (
+    ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "w", "a", "s", "d"]
+      .includes(e.key)
+  ) {
+    AudioEngine.move();
+  }
+});
+
+window.addEventListener("load", () => {
+  AudioEngine.startMusic();
+});
+</script>
+
 <body>
 
 <div id="game-container">
@@ -42,3 +128,4 @@
 
 </body>
 </html>
+
